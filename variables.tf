@@ -25,7 +25,7 @@ variable "function" {
 variable "evnt_pattern" {
   type        = string
   description = "Event Pattern of EventBridge Rule"
-  default     = <<EOF
+  default     = <<PATTERN
   {
     "source": ["aws.ec2"],
     "detail-type": ["AWS API Call via CloudTrail"],
@@ -34,5 +34,6 @@ variable "evnt_pattern" {
       "eventName": ["RunInstances"]
     }
   }
-  EOF
+  PATTERN
 }
+
