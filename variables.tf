@@ -22,7 +22,7 @@ variable "function" {
   default     = "auto_tagging"
 }
 
-variable "_pattern" {
+variable "evnt_pattern" {
   type        = string
   description = "Event Pattern of EventBridge Rule"
   default     = <<EOF

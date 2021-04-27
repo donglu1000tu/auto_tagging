@@ -1,0 +1,30 @@
+resource "aws_iam_policy" "execPolicy" {
+  name        = "ExecutionLambdaFunctionPolicyByNganTu"
+  description = "Execution Policy of Lambda function"
+  path        = "/service-role/"
+  policy      = var.exec_Policy
+  tags        = var.aws_tags
+}
+
+resource "aws_iam_role" "tagging_role" {
+  name                = "auto-tagging-role"
+  path                = "/service-role/"
+  managed_policy_arns = [aws_iam_policy.execPolicy.arn]
+  assume_role_policy  = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        "Principal": {
+        "Service": [
+          "ec2.amazonaws.com",
+          "lambda.amazonaws.com",
+          "events.amazonaws.com"
+        ]
+      } 
+    }
+  }
+  EOF
+  inline_policy       = var.inline_policy_role
+}
