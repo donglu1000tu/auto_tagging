@@ -29,9 +29,9 @@ terraform init
 terraform plan 
 terraform apply --auto-approve 
 ```
-## Customize code
+## Customize
 You can change the name of the function and tag. 
-## Upgrade this code
+## Upgrade code
 This code deploys in a single region. So please help me deploy multiple regions, it's a little hard with me now
 ## Usage
 
