@@ -6,13 +6,14 @@ This is a tool was written by Terraform and Python3.8
 1. [Git](https://git-scm.com/downloads): Amazing tool.
 2. [Terraform](https://www.terraform.io/downloads.html): The most important tool. Make sure download the latest (0.15 current) and add ```PATH``` if your OS is Windows.
 3. [Python](https://www.python.org/downloads/): My code using Python 3.8.
-3. [Github](https://github.com/) (Recommend): Control your code easily.
-4. [VSCode](https://code.visualstudio.com/download) (Recommend for dev): You can upgrade my code with it.
-5. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) (Recommend): A greate tool of AWS.
+4. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) (Recommend): A greate tool of AWS.
+5. [Github](https://github.com/) (Recommend): Control your code easily.
+6. [VSCode](https://code.visualstudio.com/download) (Recommend for dev): You can upgrade my code with it.
+
 ## Installation
 
 ### Step 1: 
-Make sure you install the first 3 options above.
+Make sure you install the first 3 (recommend 4) options above.
 Get credentials from AWS, using ```aws configure```.
 Follow [this guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html). 
 Check your access using ```aws sts get-caller-identity```.
