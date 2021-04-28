@@ -1,19 +1,16 @@
 output "lambda_arn" {
-  value = module.lambda_function.lambda_function_arn
+  value = aws_lambda_function.auto_tagging.arn
   # depends_on = [
   #   module.lambda_function
   # ]
 }
 
 output "lambda_role" {
-  value = module.lambda_function.lambda_role_arn
+  value = aws_lambda_function.auto_tagging.role
 }
 
-output "role_name" {
-  value = module.lambda_function.lambda_role_name
-}
-output "name" {
-  value = module.lambda_function.lambda_function_version
+output "version" {
+  value = aws_lambda_function.auto_tagging.version
 }
 # output "region" {
 #   value = 
