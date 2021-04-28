@@ -1,11 +1,4 @@
-# variable "dang_region" {
-#   type        = list(string)
-#   description = "(optional) describe your variable"
-#   default = [
-
-#   ]
-# }
-
+# tag resource
 variable "aws_tags" {
   type        = map(string)
   description = "Tag for services"
@@ -16,12 +9,14 @@ variable "aws_tags" {
   }
 }
 
+# function name
 variable "function" {
   type        = string
   description = "Name of function"
   default     = "auto_tagging"
 }
 
+# event pattern of Event Rule
 variable "evnt_pattern" {
   type        = string
   description = "Event Pattern of EventBridge Rule"

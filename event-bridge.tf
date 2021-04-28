@@ -16,6 +16,6 @@ resource "aws_cloudwatch_event_target" "target-lambda" {
   rule      = aws_cloudwatch_event_rule.auto-tagging.id # id of Event Rule
   arn       = aws_lambda_function.auto_tagging.arn      # ARN of Event Rule
   depends_on = [
-    aws_lambda_function.auto_tagging
+    aws_lambda_function.auto_tagging # create after the creation of Lambda function 
   ]
 }

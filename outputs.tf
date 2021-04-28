@@ -12,6 +12,3 @@ output "lambda_role" {
 output "version" {
   value = aws_lambda_function.auto_tagging.version
 }
-# output "region" {
-#   value = 
-# }
