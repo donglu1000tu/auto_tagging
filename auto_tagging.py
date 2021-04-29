@@ -36,6 +36,10 @@ def lambda_handler(event, context):
             else:
                 logging.info('Could not determine username (no userIdentity data in cloudtrail')
                 user_name = ''
+            if event['detail']['userAgent'].find("Terraform") >= 0 or event['detail']['userAgent'].find("terraform") >= 0:
+                project_name = 'Terraform'
+            else:
+                project_name = event['detail']['userAgent']
         except Exception as e:
             logging.info('could not find username, exception: ' + str(e))
             user_name = ''
@@ -47,7 +51,7 @@ def lambda_handler(event, context):
         client = boto3.client('ec2', region_name=aws_region)
         if instance_id:
             for instance in instance_id:
-                #  tag instance
+                # tag instance
                 instance_api = client.describe_instances(InstanceIds=[instance])
                 # get all ec2 instance tags
                 if 'Tags' in instance_api['Reservations'][0]['Instances'][0]:
@@ -73,10 +77,16 @@ def lambda_handler(event, context):
                         aws_create_tag(aws_region, instance, 'Schedule', 'vn-office-hours')   
                     else:
                         logging.info(f'Schedule tag already exist for instance {instance}')
+                    if not any(keys.get('Key') == 'project' for keys in instance_tags):
+                        logging.info(f'Tag "project" doesn\'t exist for instance {instance}, creating...')
+                        aws_create_tag(aws_region, instance, 'project', project_name)   
+                    else:
+                        logging.info(f'Schedule tag already exist for instance {instance}')
                 else:
                     logging.info(f'Instance {instance} has no tags, let\'s tag it with Owner tag')
                     aws_create_tag(aws_region, instance, 'Owner', user_name)
-                    aws_create_tag(aws_region, instance, 'Schedule', 'vn-office-hours')  
+                    aws_create_tag(aws_region, instance, 'Schedule', 'vn-office-hours')
+                    aws_create_tag(aws_region, instance, 'project', project_name)  
         
                 # tag ebs volumes
                 instance_volumes = [x['Ebs']['VolumeId'] for x in instance_api['Reservations'][0]['Instances'][0]['BlockDeviceMappings']]
@@ -86,24 +96,23 @@ def lambda_handler(event, context):
                     volume_tags = [x['Tags'] for x in response['Volumes'] if 'Tags' in x]
                     if volume_tags:
                         # if any(keys.get('Key') == 'Owner' and keys.get('Key') == 'AttachedInstance' and keys.get('Key') == 'Schedule' for keys in
-                        if any(keys.get('Key') == 'Owner' and keys.get('Key') == 'AttachedInstance' for keys in
-                                   volume_tags[0]):
-                            logging.info(
-                                f'Nothing to tag for volume {volume} of instance: {instance}, is already tagged')
+                        if any(keys.get('Key') == 'Owner' and keys.get('Key') == 'AttachedInstance' and keys.get('Key') == 'project' for keys in volume_tags[0]):
+                            logging.info(f'Nothing to tag for volume {volume} of instance: {instance}, is already tagged')
                             continue
                         if not any(keys.get('Key') == 'Owner' for keys in volume_tags[0]):
-                            logging.info('Tag "Owner" doesn\'t exist, creating...')
+                            logging.info(f'Tag "Owner" doesn\'t exist, creating...')
                             aws_create_tag(aws_region, volume, 'Owner', user_name)
                         if not any(keys.get('Key') == 'AttachedInstance' for keys in volume_tags[0]):
-                            logging.info('Tag "AttachedInstance" doesn\'t exist, creating...')
+                            logging.info(f'Tag "AttachedInstance" doesn\'t exist, creating...')
                             aws_create_tag(aws_region, volume, 'AttachedInstance', instance + ' - ' + str(instance_name))
-                        #if not any(keys.get('Key') == 'Schedule' for keys in volume_tags[0]):
-                        #    logging.info('Tag "Schedule" doesn\'t exist, creating...')
-                        #    aws_create_tag(aws_region, volume, 'Schedule', 'vn-office-hours')
+                        if not any(keys.get('Key') == 'project' for keys in volume_tags[0]):
+                           logging.info(f'Tag "project" doesn\'t exist, creating...')
+                           aws_create_tag(aws_region, instance, 'project', project_name)
                     else:
                         logging.info(f'volume {volume} is not tagged, adding Owner and AttachedInstance and Schedule tags')
                         aws_create_tag(aws_region, volume, 'AttachedInstance', instance + ' - ' + str(instance_name))
                         aws_create_tag(aws_region, volume, 'Owner', user_name)
+                        aws_create_tag(aws_region, instance, 'project', project_name)
                         #aws_create_tag(aws_region, volume, 'Schedule', 'vn-office-hours')
             return {
                 'statusCode': 200,
