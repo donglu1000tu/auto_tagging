@@ -32,7 +32,9 @@ terraform apply --auto-approve
 ```
 ## Parameter
 ```Owner```: Use 'PrincipalID' in here, maybe you can change to other parameter.
+
 ```Schedule```: schedule instance run or stop, search AWS Scheduler EC2 or something similar.
+
 ```project```: Use 'userAgent' in here, maybe you can change to other parameter.
 ## Upgrade code
 This code deploys in a single region. So please help me deploy multiple regions, it's a little hard with me now.
