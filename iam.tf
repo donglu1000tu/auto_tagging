@@ -40,7 +40,7 @@ resource "aws_iam_role" "tagging_role" {
       Principal = {
         Service = [
           "ec2.amazonaws.com",
-          "lambda.amazonaws.com"
+          "lambda.amazonaws.com" # need=to creating lambda
         ]
       }
     }]
