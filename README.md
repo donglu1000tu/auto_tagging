@@ -9,6 +9,7 @@ This is a tool was written by Terraform and Python3.8
 4. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) (Recommend): A greate tool of AWS.
 5. [Github](https://github.com/) (Recommend): Control your code easily.
 6. [VSCode](https://code.visualstudio.com/download) (Recommend for dev): You can upgrade my code with it.
+7. AWS CloudTrail: enable Multi-regions.
 
 ## Installation
 
