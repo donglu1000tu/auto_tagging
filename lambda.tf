@@ -12,7 +12,7 @@ resource "aws_lambda_function" "auto_tagging" {
   role          = aws_iam_role.tagging_role.arn # Get permission to tag
   description   = "Auto-tagging function"
   filename      = "${var.function}.zip"
-  timeout = 60
+  timeout       = 60
   runtime       = "python3.8"                      # runtime: python3.8
   handler       = "${var.function}.lambda_handler" # Function handle events:
   depends_on = [
